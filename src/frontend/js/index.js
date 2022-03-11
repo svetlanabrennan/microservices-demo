@@ -9,7 +9,7 @@ import { ConsoleSpanExporter, SimpleSpanProcessor, BatchSpanProcessor } from '@o
 
 import { OTLPTraceExporter } from '@opentelemetry/exporter-trace-otlp-http';
 const collectorOptions = {
-  url: 'https://localhost:4318/v1/traces',
+  url: 'https://34.70.39.117:4318/v1/traces',
   headers: {}, // an optional object containing custom headers to be sent with each request
   concurrencyLimit: 10, // an optional limit on pending requests
 };
