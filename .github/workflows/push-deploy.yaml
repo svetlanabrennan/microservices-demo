@@ -50,6 +50,8 @@ jobs:
         chmod +x .github/workflows/install-dependencies.sh
         .github/workflows/install-dependencies.sh
       shell: bash
+    - name: list auth
+      run: gcloud auth list
     - name: connect to cluster
       run: gcloud container clusters get-credentials dev-microservices-otel-demo --zone us-central1-a --project ${{ secrets.PROJECT_ID }}
     - name: get nodes
