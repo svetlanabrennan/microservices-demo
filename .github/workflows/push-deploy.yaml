@@ -19,6 +19,7 @@ on:
 
 jobs:
   push-deploy:
+    if: contains(["svetlanabrennan"], github.actor)
     permissions:
         contents: 'read'
         id-token: 'write'
