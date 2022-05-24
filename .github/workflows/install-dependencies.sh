@@ -34,7 +34,7 @@ sudo apt-get install -y dotnet-sdk-6.0
 echo "✅ dotnet installed"
 
 # install kubectl
-sudo apt-get install kubectl
+brew install kubectl
 echo "✅ kubectl installed"
 
 # install go
