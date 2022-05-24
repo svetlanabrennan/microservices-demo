@@ -46,7 +46,9 @@ jobs:
       uses: 'google-github-actions/setup-gcloud@v0'
 
     - name: install dependencies
-      run: .github/workflows/install-dependencies.sh
+      run: |
+        chmod +x .github/workflows/install-dependencies.sh
+        .github/workflows/install-dependencies.sh
       shell: bash
     - name: connect to cluster
       run: gcloud container clusters get-credentials dev-microservices-otel-demo --zone us-central1-a --project ${{ secrets.PROJECT_ID }}
