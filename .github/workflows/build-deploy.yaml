@@ -12,13 +12,13 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-name: "Push and Deploy"
+name: "Build and Deploy"
 
 on:
   workflow_dispatch:
 
 jobs:
-  push-deploy:
+  build-deploy:
     if: contains('svetlanabrennan,TylerHelmuth,jack-berg,nrcventura,martinkuba,alanwest,reese-lee', github.actor)
     permissions:
         contents: 'read'
@@ -55,20 +55,7 @@ jobs:
     - name: configure docker cli to authenticate to GCR
       run: gcloud auth configure-docker -q
     - name: build and deploy
-      timeout-minutes: 25
+      timeout-minutes: 20
       run: skaffold run --default-repo=gcr.io/${{secrets.PROJECT_ID}}
     - name: verify pods are running
       run: kubectl get pods
-
-    # - name: Push latest images to GCR
-    #   timeout-minutes: 20
-    #   run: |
-    #     skaffold config set --global local-cluster false
-    #     # tag with git hash
-    #     skaffold build --default-repo=gcr.io/$PROJECT_ID \
-    #                    --tag=$GITHUB_SHA
-    #     # tag as latest
-    #     skaffold build --default-repo=gcr.io/$PROJECT_ID \
-    #                    --tag=latest
-    #   env:
-    #     PROJECT_ID: ${{ secrets.PROJECT_ID }}
