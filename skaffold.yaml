@@ -71,7 +71,7 @@ build:
   tagPolicy:
     gitCommit: {}
   local:
-    concurrency: 2
+    concurrency: 0
     useBuildkit: false
 deploy:
   kubectl:
