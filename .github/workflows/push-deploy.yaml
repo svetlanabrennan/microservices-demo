@@ -56,7 +56,8 @@ jobs:
       run: gcloud container clusters get-credentials dev-microservices-otel-demo --zone us-central1-a --project ${{ secrets.PROJECT_ID }}
     - name: configure docker cli to authenticate to GCR
       run: gcloud auth configure-docker -q
-    - name: push latest images to GCR
+    - name: build and deploy
+      timeout-minutes: 25
       run: skaffold run --default-repo=gcr.io/${{secrets.PROJECT_ID}}
     - name: verify pods are running
       run: kubectl get pods
