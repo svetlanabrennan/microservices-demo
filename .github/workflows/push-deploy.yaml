@@ -41,7 +41,7 @@ jobs:
       uses: 'google-github-actions/auth@v0'
       with:
         workload_identity_provider: 'projects/695562648852/locations/global/workloadIdentityPools/github-actions-pool/providers/github-provider'
-        service_account: 'microservices-otel-demo@opentracing-265818.iam.gserviceaccount.com'
+        service_account: 'microservices-otel-demo@${{secrets.PROJECT_ID}}.iam.gserviceaccount.com'
     - name: 'Set up Cloud SDK'
       uses: 'google-github-actions/setup-gcloud@v0'
 
@@ -52,8 +52,12 @@ jobs:
       shell: bash
     - name: connect to cluster
       run: gcloud container clusters get-credentials dev-microservices-otel-demo --zone us-central1-a --project ${{ secrets.PROJECT_ID }}
-    - name: get nodes
-      run: kubectl get nodes
+    - name: configure docker cli to authenticate to GCR
+      run: gcloud auth configure-docker -q
+    - name: push latest images to GCR
+      run: skaffold run --default-repo=gcr.io/${{secrets.PROJECT_ID}}
+    - name: verify pods are running
+      run: kubectl get pods
 
     # - name: Push latest images to GCR
     #   timeout-minutes: 20
