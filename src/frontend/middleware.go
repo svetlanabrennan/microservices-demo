@@ -176,6 +176,7 @@ type traceware struct {
 // ServeHTTP implements the http.Handler interface. It does the actual
 // tracing of the request.
 func (tw traceware) ServeHTTP(w http.ResponseWriter, r *http.Request) {
+	rr := &responseRecorder{w: w}
 	ctx := otel.GetTextMapPropagator().Extract(r.Context(), propagation.HeaderCarrier(r.Header))
 	spanName := ""
 	route := mux.CurrentRoute(r)
@@ -200,9 +201,10 @@ func (tw traceware) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 
 	start := time.Now()
 	defer func() {
+		labels = append(labels, semconv.HTTPAttributesFromHTTPStatusCode(rr.status)...)
 		httpLatency.Record(ctx, float64(time.Now().Sub(start).Milliseconds()), labels...)
 	}()
-	tw.handler.ServeHTTP(w, r)
+	tw.handler.ServeHTTP(rr, r)
 }
 
 func MuxMiddleware() mux.MiddlewareFunc {
