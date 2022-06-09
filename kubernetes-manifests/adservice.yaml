@@ -19,7 +19,7 @@ metadata:
   namespace: opentelemetry-demo
 spec:
   revisionHistoryLimit: 1
-  replicas: 3
+  replicas: 1
   selector:
     matchLabels:
       app: adservice

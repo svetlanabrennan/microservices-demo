@@ -1,0 +1,81 @@
+name: "Build and Deploy"
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-deploy-dev:
+    if: contains('svetlanabrennan,TylerHelmuth,jack-berg,nrcventura,martinkuba,alanwest,reese-lee', github.actor)
+    permissions:
+        contents: 'read'
+        id-token: 'write'
+    runs-on: ubuntu-latest
+    environment: development
+    env:
+      OTEL_EXPORTER_OTLP_ENDPOINT: https://staging-otlp.nr-data.net:4317
+      OTEL_EXPORTER_OTLP_ENDPOINT_INFINITE_TRACING: ${{ secrets.INFINITE_TRACING_ENDPOINT }}"
+      NEW_RELIC_API_KEY: ${{ secrets.API_KEY }}
+      NEW_RELIC_LICENSE_KEY: ${{ secrets.API_KEY }}
+      NEW_RELIC_HOST: staging-collector.newrelic.com
+    steps:
+    - uses: actions/checkout@v2
+    - name: Build-And-Deploy
+      uses: ./.github/actions/build-and-deploy
+      timeout-minutes: 22
+      with:
+        environment: "dev"
+        project-id: ${{ secrets.PROJECT_ID }}
+        workload-identity-provider: ${{ secrets.WORKLOAD_IDENTITY_PROVIDER }}
+        is-staging: true
+        nr-license-key: ${{ secrets.API_KEY }}
+  build-deploy-staging:
+    if: contains('svetlanabrennan,TylerHelmuth,jack-berg,nrcventura,martinkuba,alanwest,reese-lee', github.actor) && github.ref == 'refs/heads/main'
+    permissions:
+        contents: 'read'
+        id-token: 'write'
+    runs-on: ubuntu-latest
+    environment: staging
+    env:
+      OTEL_EXPORTER_OTLP_ENDPOINT: https://staging-otlp.nr-data.net:4317
+      OTEL_EXPORTER_OTLP_ENDPOINT_INFINITE_TRACING: ${{ secrets.INFINITE_TRACING_ENDPOINT }}"
+      NEW_RELIC_API_KEY: ${{ secrets.API_KEY }}
+      NEW_RELIC_LICENSE_KEY: ${{ secrets.API_KEY }}
+      NEW_RELIC_HOST: staging-collector.newrelic.com
+    steps:
+    - uses: actions/checkout@v2
+    - name: Build-And-Deploy
+      uses: ./.github/actions/build-and-deploy
+      timeout-minutes: 22
+      with:
+        environment: "staging"
+        project-id: ${{ secrets.PROJECT_ID }}
+        workload-identity-provider: ${{ secrets.WORKLOAD_IDENTITY_PROVIDER }}
+        is-staging: true
+        nr-license-key: ${{ secrets.API_KEY }}
+  build-deploy-prod:
+    if: contains('svetlanabrennan,TylerHelmuth,jack-berg,nrcventura,martinkuba,alanwest,reese-lee', github.actor) && github.ref == 'refs/heads/main'
+    permissions:
+        contents: 'read'
+        id-token: 'write'
+    runs-on: ubuntu-latest
+    environment: production
+    env:
+      OTEL_EXPORTER_OTLP_ENDPOINT: https://otlp.nr-data.net:4317
+      OTEL_EXPORTER_OTLP_ENDPOINT_INFINITE_TRACING: ${{ secrets.INFINITE_TRACING_ENDPOINT }}"
+      NEW_RELIC_API_KEY: ${{ secrets.API_KEY }}
+      NEW_RELIC_LICENSE_KEY: ${{ secrets.API_KEY }}
+      NEW_RELIC_HOST: collector.newrelic.com
+    steps:
+    - uses: actions/checkout@v2
+    - name: Build-And-Deploy
+      uses: ./.github/actions/build-and-deploy
+      timeout-minutes: 22
+      with:
+        environment: "prod"
+        project-id: ${{ secrets.PROJECT_ID }}
+        workload-identity-provider: ${{ secrets.WORKLOAD_IDENTITY_PROVIDER }}
+        is-staging: false
+        nr-license-key: ${{ secrets.API_KEY }}

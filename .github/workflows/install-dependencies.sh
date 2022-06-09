@@ -34,8 +34,11 @@ sudo apt-get install -y dotnet-sdk-6.0
 echo "✅ dotnet installed"
 
 # install kubectl
-sudo apt-get install -yqq kubectl git
+brew install kubectl
 echo "✅ kubectl installed"
+
+brew install helm
+echo "✅ helm installed"
 
 # install go
 wget https://golang.org/dl/go1.18.linux-amd64.tar.gz
@@ -60,15 +63,3 @@ curl -Lo skaffold https://storage.googleapis.com/skaffold/releases/latest/skaffo
 chmod +x skaffold && \
 sudo mv skaffold /usr/local/bin
 echo "✅ skaffold installed"
-
-# install docker
-sudo apt install -yqq apt-transport-https ca-certificates curl gnupg2 software-properties-common && \
-curl -fsSL https://download.docker.com/linux/debian/gpg | sudo apt-key add - && \
-sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/debian $(lsb_release -cs) stable" && \
-sudo apt-get update && \
-sudo apt-get install -yqq docker-ce && \
-sudo usermod -aG docker ${USER}
-echo "✅ docker installed, rebooting..."
-
-# reboot for docker setup
-sudo reboot
