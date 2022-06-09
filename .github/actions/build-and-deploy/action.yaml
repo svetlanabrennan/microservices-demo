@@ -4,6 +4,9 @@ inputs:
   environment:
     description: 'which environment to deploy to.  Valid values are `dev`, `staging`, and `prod`.'
     required: true
+  project-id:
+    description: 'Project ID of the GCP project'
+    required: true
 runs:
   using: "composite"
   steps:
@@ -12,7 +15,7 @@ runs:
       uses: 'google-github-actions/auth@v0'
       with:
         workload_identity_provider: 'projects/695562648852/locations/global/workloadIdentityPools/github-actions-pool/providers/github-provider'
-        service_account: 'microservices-otel-demo@${{ secrets.PROJECT_ID }}.iam.gserviceaccount.com'
+        service_account: 'microservices-otel-demo@${{ inputs.project-id }}.iam.gserviceaccount.com'
     - name: 'Set up Cloud SDK'
       uses: 'google-github-actions/setup-gcloud@v0'
 
@@ -24,13 +27,13 @@ runs:
       
     - name: connect to cluster
       shell: bash
-      run: gcloud container clusters get-credentials ${{ inputs.environment }}-microservices-otel-demo --zone us-central1-a --project ${{ secrets.PROJECT_ID }}
+      run: gcloud container clusters get-credentials ${{ inputs.environment }}-microservices-otel-demo --zone us-central1-a --project ${{ inputs.project-id }}
     - name: configure docker cli to authenticate to GCR
       shell: bash
       run: gcloud auth configure-docker -q
     - name: build and deploy
       shell: bash
-      run: skaffold run --default-repo=gcr.io/${{ secrets.PROJECT_ID }}
+      run: skaffold run --default-repo=gcr.io/${{ inputs.project-id }}
     - name: verify pods are running
       shell: bash
       run: kubectl get pods

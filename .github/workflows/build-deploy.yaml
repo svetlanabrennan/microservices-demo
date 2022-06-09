@@ -27,3 +27,4 @@ jobs:
       timeout-minutes: 22
       with:
         environment: "dev"
+        project-id: ${{ secrets.PROJECT_ID }}
