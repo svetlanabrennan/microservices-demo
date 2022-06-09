@@ -38,17 +38,18 @@ runs:
     - name: configure docker cli to authenticate to GCR
       shell: bash
       run: gcloud auth configure-docker -q
+    - name: Add New Relic Helm Repository
+      shell: bash
+      run: helm repo add newrelic https://helm-charts.newrelic.com
     - name: Deploy New Relic Kubernetes Integration
       shell: bash
       run: |
-        helm upgrade \
+        helm upgrade --install newrelic-bundle newrelic/nri-bundle \
           -f values-newrelic.yaml \
           --set global.nrStaging=${{ inputs.is-staging }} \
           --set global.licenseKey=${{ inputs.nr-license-key }} \
           --set global.cluster=${{ inputs.environment }}-microservices-otel-demo \
-          --install \
-          --namespace newrelic \
-          newrelic-bundle newrelic/nri-bundle 
+          --namespace newrelic
     - name: build and deploy
       shell: bash
       run: skaffold run --default-repo=gcr.io/${{ inputs.project-id }}
