@@ -29,6 +29,8 @@ jobs:
         environment: "dev"
         project-id: ${{ secrets.PROJECT_ID }}
         workload-identity-provider: ${{ secrets.WORKLOAD_IDENTITY_PROVIDER }}
+        is-staging: true
+        nr-license-key: ${{ secrets.API_KEY }}
   build-deploy-staging:
     if: contains('svetlanabrennan,TylerHelmuth,jack-berg,nrcventura,martinkuba,alanwest,reese-lee', github.actor) && github.ref == 'refs/heads/main'
     permissions:
@@ -51,6 +53,8 @@ jobs:
         environment: "staging"
         project-id: ${{ secrets.PROJECT_ID }}
         workload-identity-provider: ${{ secrets.WORKLOAD_IDENTITY_PROVIDER }}
+        is-staging: true
+        nr-license-key: ${{ secrets.API_KEY }}
   build-deploy-prod:
     if: contains('svetlanabrennan,TylerHelmuth,jack-berg,nrcventura,martinkuba,alanwest,reese-lee', github.actor) && github.ref == 'refs/heads/main'
     permissions:
@@ -73,3 +77,5 @@ jobs:
         environment: "prod"
         project-id: ${{ secrets.PROJECT_ID }}
         workload-identity-provider: ${{ secrets.WORKLOAD_IDENTITY_PROVIDER }}
+        is-staging: false
+        nr-license-key: ${{ secrets.API_KEY }}
