@@ -44,7 +44,7 @@ runs:
         helm upgrade \
           -f values-newrelic.yaml \
           --set global.nrStaging=${{ inputs.is-staging }} \
-          --set global.licenseKey=${{ nr-license-key }} \
+          --set global.licenseKey=${{ inputs.nr-license-key }} \
           --set global.cluster=${{ inputs.environment }}-microservices-otel-demo \
           --install \
           --namespace newrelic \
