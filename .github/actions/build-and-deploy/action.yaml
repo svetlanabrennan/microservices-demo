@@ -21,13 +21,11 @@ runs:
         service_account: 'microservices-otel-demo@${{ inputs.project-id }}.iam.gserviceaccount.com'
     - name: 'Set up Cloud SDK'
       uses: 'google-github-actions/setup-gcloud@v0'
-
     - name: install dependencies
       shell: bash
       run: |
         chmod +x .github/workflows/install-dependencies.sh
         .github/workflows/install-dependencies.sh
-      
     - name: connect to cluster
       shell: bash
       run: gcloud container clusters get-credentials ${{ inputs.environment }}-microservices-otel-demo --zone us-central1-a --project ${{ inputs.project-id }}
