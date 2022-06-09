@@ -31,8 +31,9 @@ jobs:
       with:
         environment: "dev"
         project-id: ${{ secrets.PROJECT_ID }}
+        workload-identity-provider: ${{ secrets.WORKFLOW_IDENTITY_PROVIDER }}
   build-deploy-staging:
-    if: contains('svetlanabrennan,TylerHelmuth,jack-berg,nrcventura,martinkuba,alanwest,reese-lee', github.actor)
+    if: contains('svetlanabrennan,TylerHelmuth,jack-berg,nrcventura,martinkuba,alanwest,reese-lee', github.actor) && github.ref == 'refs/heads/main'
     permissions:
         contents: 'read'
         id-token: 'write'
@@ -55,8 +56,9 @@ jobs:
       with:
         environment: "staging"
         project-id: ${{ secrets.PROJECT_ID }}
+        workload-identity-provider: ${{ secrets.WORKFLOW_IDENTITY_PROVIDER }}
   build-deploy-prod:
-    if: contains('svetlanabrennan,TylerHelmuth,jack-berg,nrcventura,martinkuba,alanwest,reese-lee', github.actor)
+    if: contains('svetlanabrennan,TylerHelmuth,jack-berg,nrcventura,martinkuba,alanwest,reese-lee', github.actor) && github.ref == 'refs/heads/main'
     permissions:
         contents: 'read'
         id-token: 'write'
@@ -79,3 +81,4 @@ jobs:
       with:
         environment: "prod"
         project-id: ${{ secrets.PROJECT_ID }}
+        workload-identity-provider: ${{ secrets.WORKFLOW_IDENTITY_PROVIDER }}
