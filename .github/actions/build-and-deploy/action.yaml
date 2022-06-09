@@ -40,4 +40,3 @@ runs:
     - name: verify pods are running
       shell: bash
       run: kubectl get pods
-  
