@@ -37,6 +37,9 @@ echo "✅ dotnet installed"
 brew install kubectl
 echo "✅ kubectl installed"
 
+brew install helm
+echo "✅ helm installed"
+
 # install go
 wget https://golang.org/dl/go1.18.linux-amd64.tar.gz
 sudo tar -C /usr/local -xzf go1.18.linux-amd64.tar.gz

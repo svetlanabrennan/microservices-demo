@@ -16,10 +16,7 @@ jobs:
     environment: development
     env:
       OTEL_EXPORTER_OTLP_ENDPOINT: https://staging-otlp.nr-data.net:4317
-      OTEL_EXPORTER_OTLP_METRICS_ENDPOINT: https://staging-otlp.nr-data.net:4317
-      OTEL_EXPORTER_OTLP_TRACES_ENDPOINT: https://staging-otlp.nr-data.net:4317
       OTEL_EXPORTER_OTLP_ENDPOINT_INFINITE_TRACING: ${{ secrets.INFINITE_TRACING_ENDPOINT }}"
-      OTEL_EXPORTER_OTLP_HEADERS: "api-key: ${{ secrets.API_KEY }}"
       NEW_RELIC_API_KEY: ${{ secrets.API_KEY }}
       NEW_RELIC_LICENSE_KEY: ${{ secrets.API_KEY }}
       NEW_RELIC_HOST: staging-collector.newrelic.com
@@ -41,10 +38,7 @@ jobs:
     environment: staging
     env:
       OTEL_EXPORTER_OTLP_ENDPOINT: https://staging-otlp.nr-data.net:4317
-      OTEL_EXPORTER_OTLP_METRICS_ENDPOINT: https://staging-otlp.nr-data.net:4317
-      OTEL_EXPORTER_OTLP_TRACES_ENDPOINT: https://staging-otlp.nr-data.net:4317
       OTEL_EXPORTER_OTLP_ENDPOINT_INFINITE_TRACING: ${{ secrets.INFINITE_TRACING_ENDPOINT }}"
-      OTEL_EXPORTER_OTLP_HEADERS: "api-key: ${{ secrets.API_KEY }}"
       NEW_RELIC_API_KEY: ${{ secrets.API_KEY }}
       NEW_RELIC_LICENSE_KEY: ${{ secrets.API_KEY }}
       NEW_RELIC_HOST: staging-collector.newrelic.com
@@ -66,10 +60,7 @@ jobs:
     environment: production
     env:
       OTEL_EXPORTER_OTLP_ENDPOINT: https://otlp.nr-data.net:4317
-      OTEL_EXPORTER_OTLP_METRICS_ENDPOINT: https://otlp.nr-data.net:4317
-      OTEL_EXPORTER_OTLP_TRACES_ENDPOINT: https://otlp.nr-data.net:4317
       OTEL_EXPORTER_OTLP_ENDPOINT_INFINITE_TRACING: ${{ secrets.INFINITE_TRACING_ENDPOINT }}"
-      OTEL_EXPORTER_OTLP_HEADERS: "api-key: ${{ secrets.API_KEY }}"
       NEW_RELIC_API_KEY: ${{ secrets.API_KEY }}
       NEW_RELIC_LICENSE_KEY: ${{ secrets.API_KEY }}
       NEW_RELIC_HOST: collector.newrelic.com

@@ -10,6 +10,12 @@ inputs:
   workload-identity-provider:
     description: Workload identity provider to use to authenticate.
     required: true
+  is-staging:
+    description: Whether or not the deployment is going to New Relic Staging
+    required: true
+  nr-license-key:
+    description: New Relic license key
+    required: true
 runs:
   using: "composite"
   steps:
@@ -32,6 +38,17 @@ runs:
     - name: configure docker cli to authenticate to GCR
       shell: bash
       run: gcloud auth configure-docker -q
+    - name: Deploy New Relic Kubernetes Integration
+      shell: bash
+      run: |
+        helm upgrade \
+          -f values-newrelic.yaml \
+          --set global.nrStaging=${{ inputs.is-staging }} \
+          --set global.licenseKey=${{ nr-license-key }} \
+          --set global.cluster=${{ inputs.environment }}-microservices-otel-demo \
+          --install \
+          --namespace newrelic \
+          newrelic-bundle newrelic/nri-bundle 
     - name: build and deploy
       shell: bash
       run: skaffold run --default-repo=gcr.io/${{ inputs.project-id }}
