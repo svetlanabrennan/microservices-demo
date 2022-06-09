@@ -17,17 +17,21 @@ runs:
       uses: 'google-github-actions/setup-gcloud@v0'
 
     - name: install dependencies
+      shell: bash
       run: |
         chmod +x .github/workflows/install-dependencies.sh
         .github/workflows/install-dependencies.sh
-      shell: bash
+      
     - name: connect to cluster
+      shell: bash
       run: gcloud container clusters get-credentials ${{ inputs.environment }}-microservices-otel-demo --zone us-central1-a --project ${{ secrets.PROJECT_ID }}
     - name: configure docker cli to authenticate to GCR
+      shell: bash
       run: gcloud auth configure-docker -q
     - name: build and deploy
-      timeout-minutes: 20
+      shell: bash
       run: skaffold run --default-repo=gcr.io/${{ secrets.PROJECT_ID }}
     - name: verify pods are running
+      shell: bash
       run: kubectl get pods
   
