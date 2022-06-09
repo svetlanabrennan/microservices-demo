@@ -31,7 +31,7 @@ jobs:
       with:
         environment: "dev"
         project-id: ${{ secrets.PROJECT_ID }}
-        workload-identity-provider: ${{ secrets.WORKFLOW_IDENTITY_PROVIDER }}
+        workload-identity-provider: ${{ secrets.WORKLOAD_IDENTITY_PROVIDER }}
   build-deploy-staging:
     if: contains('svetlanabrennan,TylerHelmuth,jack-berg,nrcventura,martinkuba,alanwest,reese-lee', github.actor) && github.ref == 'refs/heads/main'
     permissions:
